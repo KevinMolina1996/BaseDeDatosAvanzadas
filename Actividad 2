@@ -1,0 +1,30 @@
+
+# Creacion de nuevos puertos.
+mongod --replSet RS --dbpath="C:\data\db\nodo1" --port 20001
+mongod --replSet RS --dbpath="C:\data\db\nodo2" --port 20002
+mongod --replSet RS --dbpath="C:\data\db\nodo3" --port 20003
+
+#Conectarme a localhost.
+mongo localhost:20003 --- Es localhost
+
+#Cambiamos al nodo maestro
+con = new Mongo(localhost:20001) 
+con.isMaster()
+
+#Nuevo master
+mongo localhost:20001
+
+#Validamos el estado
+rs.status()
+
+#Consultamos la colección de equipo
+db.Equipos.find()
+
+#Registramos la informacion de un nuevo equipo en un nuevo nodo
+db.Equipos.insert({"id": 5,"Nombre":"Medellin","ciudad":"Medellin"})
+
+#Volvemos a consultar
+db.Equipos.find()
+
+#Nos conectamos al nodo 20002 y usamos el comando para consultar los datos
+rs.slaveOk()
